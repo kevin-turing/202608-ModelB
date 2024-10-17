@@ -1,24 +1,14 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { collection, doc, setDoc } from "firebase/firestore"; 
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+async function addDocument(db: Firestore, data: any) {
+  try {
+    const collectionRef = collection(db, "yourCollectionName"); // Replace "yourCollectionName"
+    const newDocRef = doc(collectionRef); // This creates a document with an auto-generated ID
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+    await setDoc(newDocRef, data);
+    console.log("Document written with ID: ", newDocRef.id);
+
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
